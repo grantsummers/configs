@@ -33,8 +33,13 @@ floating_modifier $mod
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec termite
 
-bindsym $mod+y fullscreen disable; floating enable; resize set 500 286; sticky enable; move window to position 1165 38
-bindsym $mod+shift+y floating disable; sticky disable
+# start browser
+bindsym $mod+Shift+Return exec firefox
+bindsym Mod4+Shift+Return exec chromium
+bindsym $mod+t exec thunderbird
+
+bindsym $mod+Shift+f fullscreen disable; floating enable; resize set 520 297; sticky enable; move window to position 1110 50
+bindsym Mod4+Shift+f floating disable; sticky disable
 
 bindsym $mod+shift+s sticky toggle
 
@@ -96,16 +101,16 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $workspace1 "1"
-set $workspace2 "2"
-set $workspace3 "3"
-set $workspace4 "4"
-set $workspace5 "5"
-set $workspace6 "6"
-set $workspace7 "7"
-set $workspace8 "8"
-set $workspace9 "9"
-set $workspace10 "10"
+set $workspace1 "1:I"
+set $workspace2 "2:II"
+set $workspace3 "3:III"
+set $workspace4 "4:IV"
+set $workspace5 "5:V"
+set $workspace6 "6:VI"
+set $workspace7 "7:VII"
+set $workspace8 "8:VIII"
+set $workspace9 "9:IX"
+set $workspace10 "10:X"
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -132,15 +137,25 @@ bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% && pkill -RTMIN+1 i3blocks #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% && pkill -RTMIN+1 i3blocks #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle && pkill -RTMIN+1 i3blocks # mute sound
+
+# change volume or toggle mute
+#bindsym XF86AudioRaiseVolume exec amixer -q sset Master 5%+ && pkill -RTMIN+1 i3blocks 
+#bindsym XF86AudioLowerVolume exec amixer -q sset Master 5%- && pkill -RTMIN+1 i3blocks
+#bindsym XF86AudioMute exec amixer -q sset Master toggle && pkill -RTMIN+1
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+# Caps and numlock key indicator triggers
+#bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+#bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -149,18 +164,27 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-set $bg-color            #2f343f
-set $inactive-bg-color   #2f343f
-set $text-color          #f3f4f5
-set $inactive-text-color #676E7D
-set $urgent-bg-color     #E53935
+# border colors
+set $foc-border             #3182bd
+#528B8B
+set $unfoc-border           #b7b8b9
+#C2C2B0
+set $urgent-border          #e31a1c
+# bg-colors
+# text colors
+set $foc-text               #f3f4f5
+set $unfoc-text             #676E7D
+set $urgent-text            #f3f4f5
+# indicator colors
+# bar colors
+set $top-background         #222222
 
 # window colors
-#                       border              background         text                 indicator
-client.focused          $bg-color           $bg-color          $text-color          $bg-color
-client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color  $inactive-bg-color
-client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color  $inactive-bg-color
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $urgent-bg-color
+#                       border         background     text         indicator
+client.focused          $foc-border    $foc-border    $foc-text    $foc-border
+client.unfocused        $unfoc-border  $unfoc-border  $unfoc-text  $unfoc-border
+client.focused_inactive $unfoc-border  $unfoc-border  $unfoc-text  $unfoc-border
+client.urgent           $urgent-border $urgent-border $urgent-text $urgent-border
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -186,7 +210,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 420 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 16"
+bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 420 -opacity "85" -bw 0 -bc "$foc-border" -bg "$foc-border" -fg "$foc-text" -hlbg "$foc-border" -hlfg "#9575cd" -font "System San Francisco Display 16"
 
 bindsym $mod+r mode "resize"
 
@@ -198,14 +222,22 @@ bindsym $mod+r mode "resize"
 
 bindsym $mod+shift+x exec i3lock --color "$bg-color"
 
+bindsym Control+Mod1+Delete exec .scripts/shutdown_menu -c
+
 for_window [class="^.*"] border pixel 5
 
-gaps inner 10
-gaps outer 5
+set $gaps_outer 30
+set $gaps_inner 20
 
-set $mode_gaps Gaps: (o) outer, (i) inner
-set $mode_gaps_outer Outer Gaps: +|-|0 (global), Shift + +|-|0 (local)
-set $mode_gaps_inner Inner Gaps: +|-|0 (global), Shift + +|-|0 (local)
+gaps inner $gaps_inner
+gaps outer $gaps_outer
+#gaps inner 10
+#gaps outer 5
+
+set $mode_gaps Gaps: (o) outer, (i) inner, (b) both
+set $mode_gaps_outer Outer Gaps: +|-|9|0 (global), Shift + +|-|9|0 (local)
+set $mode_gaps_inner Inner Gaps: +|-|9|0 (global), Shift + +|-|9|0 (local)
+set $mode_gaps_both Both Gaps: +|-|9|0 (global), Shift + +|-|9|0 (local)
 bindsym $mod+Shift+g mode "$mode_gaps"
 
 mode "$mode_gaps" {
@@ -216,14 +248,30 @@ mode "$mode_gaps" {
 	bindsym Escape mode "default"
 }
 
+mode "$mode_gaps_both"{
+	bindsym plus  gaps inner all plus 5; gaps outer all plus 5
+	bindsym minus gaps inner all minus 5; gaps outer all minus 5
+	bindsym 0     gaps inner all set 0; gaps outer all set 0
+    bindsym 9     gaps inner all set $gaps_inner; gaps outer all set $gaps_outer
+
+	bindsym Shift+plus  gaps inner current plus 5; gaps outer current plus 5
+	bindsym Shift+minus gaps inner current minus 5; gaps outer current minus 5
+	bindsym Shift+0     gaps inner current set 0; gaps outer current set 0
+    bindsym Shift+9     gaps inner current set $gaps_inner; gaps outer current set $gaps_outer
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
 mode "$mode_gaps_inner" {
 	bindsym plus  gaps inner all plus 5
 	bindsym minus gaps inner all minus 5
 	bindsym 0     gaps inner all set 0
+    bindsym 9     gaps inner all set $gaps_inner
 
 	bindsym Shift+plus  gaps inner current plus 5
 	bindsym Shift+minus gaps inner current minus 5
 	bindsym Shift+0     gaps inner current set 0
+    bindsym Shift9      gaps inner all set $gaps_inner
 
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
@@ -232,10 +280,12 @@ mode "$mode_gaps_outer" {
 	bindsym plus  gaps outer all plus 5
 	bindsym minus gaps outer all minus 5
 	bindsym 0     gaps outer all set 0
+    bindsym 9     gaps outer all set $gaps_outer
 
 	bindsym Shift+plus  gaps outer current plus 5
 	bindsym Shift+minus gaps outer current minus 5
 	bindsym Shift+0     gaps outer current set 0
+    bindsym Shift+9     gaps outer all set $gaps_outer
 
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
@@ -247,18 +297,23 @@ bar {
     status_command i3blocks -c ~/.i3/i3blocks.conf
     # status_command i3status
     position top
+    mode hide
+    strip_workspace_numbers yes
+    modifier $mod
+    tray_output none
 	colors {
-		background $bg-color
+		background $top-background
 	    	separator #757575
 		#                  border             background         text
-		focused_workspace  $bg-color          $bg-color          $text-color
-		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
-		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+		focused_workspace  $unfoc-border      $foc-border        $foc-text
+		inactive_workspace $unfoc-border      $unfoc-border      $unfoc-text
+		urgent_workspace   $urgent-border     $urgent-border     $text-color
 	}
 }
 
-exec_always feh --bg-scale Pictures/Wallpapers/juuzou.jpg
+exec_always feh --bg-scale Pictures/Wallpapers/bley.jpg
 # exec_always display_settings_contents
 
-exec_always compton -f
+exec --no-startup-id nm-applet
+exec compton -f
 exec Termite
