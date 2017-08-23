@@ -19,6 +19,11 @@ if dein#load_state('/home/docscratch/.vim/bundles/.')
 	" Add or remove your plugins here:
 	"call dein#add('valloric/youcompleteme')
 	call dein#add('tpope/vim-unimpaired')
+    call dein#add('junegunn/goyo.vim')
+    call dein#add('junegunn/gv.vim')
+    call dein#add('mhinz/vim-startify')
+    call dein#add('ntpeters/vim-better-whitespace')
+    call dein#add('yuttie/comfortable-motion.vim')
 	call dein#add('bling/vim-bufferline')
 	call dein#add('sjl/gundo.vim')
 	call dein#add('mbbill/undotree')
@@ -125,6 +130,12 @@ set lazyredraw              " stop all the redrawin
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nmap <silent> ; :nohl<CR>
 
+" No more 'this isn't a command' bullshit anymore
+:command WQ wq
+:command Wq wq
+:command W w
+:command Q q
+
 " Easier split pane navigation
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -152,3 +163,16 @@ nnoremap <silent> <Leader><C-a> :<C-u>call AddSubtract("\<C-a>", 'b')<CR>
 nnoremap <silent>         <C-x> :<C-u>call AddSubtract("\<C-x>", '')<CR>
 nnoremap <silent> <Leader><C-x> :<C-u>call AddSubtract("\<C-x>", 'b')<CR>
 
+
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
