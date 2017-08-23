@@ -4,39 +4,56 @@ if &compatible
 endif
 
 " Required:
-set runtimepath^=.vim/Plugins/dein//repos/github.com/Shougo/dein.vim
-
+set runtimepath^=/home/docscratch/.vim/bundles/repos/github.com/Shougo/dein.vim
 " Required:
 call dein#begin(expand('.vim/Plugins/dein/'))
 
-" Let dein manage dein
-" Required:
-call dein#add('Shougo/dein.vim')
+"Required:
+if dein#load_state('/home/docscratch/.vim/bundles/.')
+	  call dein#begin('/home/docscratch/.vim/bundles/.')
 
-" Add or remove your plugins here:
-call dein#add('Shougo/neosnippet.vim')
-call dein#add('Shougo/neosnippet-snippets')
-call dein#add('Shougo/deoplete.nvim')
-call dein#add('tpope/vim-fugitive')
-call dein#add('scrooloose/syntastic')
-call dein#add('tpope/vim-surround')
-call dein#add('scrooloose/nerdcommenter')
-call dein#add('airblade/vim-gitgutter')
-call dein#add('easymotion/vim-easymotion')
-call dein#add('tpope/vim-repeat')
-call dein#add('nathanaelkane/vim-indent-guides')
-call dein#add('sjl/gundo.vim')
-call dein#add('jiangmiao/auto-pairs')
-call dein#add('terryma/vim-multiple-cursors')
-call dein#add('haya14busa/incsearch.vim')
-call dein#add('haya14busa/incsearch-easymotion.vim')
-call dein#add('shougo/unite.vim')
+	" Let dein manage dein
+	" Required:
+	call dein#add('/home/docscratch/.vim/bundles/./repos/github.com/Shougo/dein.vim')
 
-" You can specify revision/branch/tag.
-" call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+	" Add or remove your plugins here:
+	"call dein#add('valloric/youcompleteme')
+	call dein#add('tpope/vim-unimpaired')
+	call dein#add('bling/vim-bufferline')
+	call dein#add('sjl/gundo.vim')
+	call dein#add('mbbill/undotree')
+	call dein#add('vim-airline/vim-airline')
+	call dein#add('vim-airline/vim-airline-themes')
+	call dein#add('Shougo/neosnippet.vim')
+	call dein#add('Shougo/neosnippet-snippets')
+	"call dein#add('Shougo/deoplete.nvim')
+	call dein#add('Shougo/neocomplete.vim')
+	call dein#add('tpope/vim-fugitive')
+    call dein#add('godlygeek/tabular')
+	call dein#add('scrooloose/syntastic')
+	call dein#add('tpope/vim-surround')
+	call dein#add('scrooloose/nerdcommenter')
+	call dein#add('scrooloose/nerdtree')
+	call dein#add('Xuyuanp/nerdtree-git-plugin')
+    call dein#add('airblade/vim-gitgutter')
+	call dein#add('majutsushi/tagbar')
+	call dein#add('airblade/vim-gitgutter')
+	call dein#add('easymotion/vim-easymotion')
+	call dein#add('tpope/vim-repeat')
+	call dein#add('nathanaelkane/vim-indent-guides')
+	call dein#add('jiangmiao/auto-pairs')
+	call dein#add('terryma/vim-multiple-cursors')
+	call dein#add('haya14busa/incsearch.vim')
+	call dein#add('haya14busa/incsearch-easymotion.vim')
+	call dein#add('shougo/unite.vim')
 
-" Required:
-call dein#end()
+	" You can specify revision/branch/tag.
+	" call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+
+	" Required:
+	call dein#end()
+	call dein#save_state()
+endif
 
 " Required:
 filetype plugin indent on
@@ -48,6 +65,11 @@ endif
 
 "End dein Scripts-------------------------
 
+nmap <F5> :NERDTreeToggle<CR>
+nmap <F8> :TagbarToggle<CR>
+nmap <F6> :UndotreeToggle<CR>
+"nnoremap <F7> :GundoToggle<CR>
+
 map <Leader> <Plug>(easymotion-prefix)
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -57,7 +79,25 @@ map z? <Plug>(incsearch-easymotion-?)
 map zg/ <Plug>(incsearch-easymotion-stay)
 nnoremap <Leader>u :Unite -silent -start-insert buffer file file_rec<CR>
 
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:airline_theme='deus'
+let g:airline_powerline_fonts = 1
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+
 syntax on
+set relativenumber
 set number
 set ruler
 set mouse=a
@@ -65,7 +105,7 @@ set mouse=a
 set tabstop=4               " number of visual spaces per TAB
 set shiftwidth=4
 set softtabstop=4           " number of spaces in tab when editing
-"set expandtab               " tabs = spaces
+set expandtab               " tabs = spaces
 set smarttab
 set autoindent
 set backspace=2
@@ -83,7 +123,14 @@ set hlsearch                " highlight search matches
 set lazyredraw              " stop all the redrawin
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
-nnoremap <silent> <C-l> :nohl<CR><C-l>
+nmap <silent> ; :nohl<CR>
+
+" Easier split pane navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 
 " Inter-buffer copy and paste with ','
 vmap <silent> ,y y:new<CR>:call setline(1,getregtype())<CR>o<Esc>P:wq! ~/reg.txt<CR>
@@ -104,3 +151,4 @@ nnoremap <silent>         <C-a> :<C-u>call AddSubtract("\<C-a>", '')<CR>
 nnoremap <silent> <Leader><C-a> :<C-u>call AddSubtract("\<C-a>", 'b')<CR>
 nnoremap <silent>         <C-x> :<C-u>call AddSubtract("\<C-x>", '')<CR>
 nnoremap <silent> <Leader><C-x> :<C-u>call AddSubtract("\<C-x>", 'b')<CR>
+
