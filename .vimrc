@@ -19,6 +19,7 @@ if dein#load_state('/home/docscratch/.vim/bundles/.')
 	" Add or remove your plugins here:
 	"call dein#add('valloric/youcompleteme')
 	call dein#add('tpope/vim-unimpaired')
+    call dein#add('jreybert/vimagit')
     call dein#add('junegunn/goyo.vim')
     call dein#add('junegunn/gv.vim')
     call dein#add('mhinz/vim-startify')
