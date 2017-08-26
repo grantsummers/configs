@@ -18,7 +18,13 @@ if dein#load_state('/home/docscratch/.vim/bundles/.')
 
 	" Add or remove your plugins here:
 	"call dein#add('valloric/youcompleteme')
+    call dein#add('metakirby5/codi.vim')
+    call dein#add('vimwiki/vimwiki')
+    call dein#add('ervandew/supertab')
+    call dein#add('xolox/vim-misc')
+    call dein#add('xolox/vim-easytags')
 	call dein#add('tpope/vim-unimpaired')
+    "call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('jreybert/vimagit')
     call dein#add('junegunn/goyo.vim')
     call dein#add('junegunn/gv.vim')
@@ -85,6 +91,7 @@ map z? <Plug>(incsearch-easymotion-?)
 map zg/ <Plug>(incsearch-easymotion-stay)
 nnoremap <Leader>u :Unite -silent -start-insert buffer file file_rec<CR>
 
+autocmd VimEnter * nested :call tagbar#autoopen(1)
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -106,7 +113,11 @@ syntax on
 set relativenumber
 set number
 set ruler
-set mouse=a
+set mouse+=a
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
 
 set tabstop=4               " number of visual spaces per TAB
 set shiftwidth=4
