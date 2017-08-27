@@ -19,8 +19,10 @@ if dein#load_state('/home/docscratch/.vim/bundles/.')
 	" Add or remove your plugins here:
 	"call dein#add('valloric/youcompleteme')
     call dein#add('metakirby5/codi.vim')
+    call dein#add('junegunn/vim-peekaboo')
     call dein#add('vimwiki/vimwiki')
     call dein#add('ervandew/supertab')
+	call dein#add('ludovicchabant/vim-gutentags')
     call dein#add('xolox/vim-misc')
     call dein#add('xolox/vim-easytags')
 	call dein#add('tpope/vim-unimpaired')
@@ -41,6 +43,8 @@ if dein#load_state('/home/docscratch/.vim/bundles/.')
 	"call dein#add('Shougo/deoplete.nvim')
 	call dein#add('Shougo/neocomplete.vim')
 	call dein#add('tpope/vim-fugitive')
+    call dein#add('junegunn/gv.vim')
+    call dein#add('gregsexton/gitv')
     call dein#add('godlygeek/tabular')
 	call dein#add('scrooloose/syntastic')
 	call dein#add('tpope/vim-surround')
@@ -49,7 +53,6 @@ if dein#load_state('/home/docscratch/.vim/bundles/.')
 	call dein#add('Xuyuanp/nerdtree-git-plugin')
     call dein#add('airblade/vim-gitgutter')
 	call dein#add('majutsushi/tagbar')
-	call dein#add('airblade/vim-gitgutter')
 	call dein#add('easymotion/vim-easymotion')
 	call dein#add('tpope/vim-repeat')
 	call dein#add('nathanaelkane/vim-indent-guides')
@@ -200,3 +203,10 @@ function RangerExplorer()
     redraw!
 endfun
 map <Leader>x :call RangerExplorer()<CR>
+
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
