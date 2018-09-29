@@ -1,116 +1,78 @@
-"dein Scripts-----------------------------
-if &compatible
-	set nocompatible               " Be iMproved
-endif
+call plug#begin('~/.vim/plugged')
+    Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+    "Plug 'junegunn/vim-peekaboo',
+    "Plug 'vimwiki/vimwiki',
+    "Plug 'ervandew/supertab',
+    "Plug 'ludovicchabant/vim-gutentags',
+    "Plug 'xolox/vim-misc',
+    "Plug 'majutsushi/tagbar'
+    "Plug 'xolox/vim-easytags',
+    "Plug 'tpope/vim-unimpaired',
+    Plug 'jreybert/vimagit',
+    Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
+    Plug 'junegunn/gv.vim',
+    Plug 'gregsexton/gitv',
 
-" Required:
-set runtimepath^=/home/docscratch/.vim/bundles/repos/github.com/Shougo/dein.vim
-" Required:
-call dein#begin(expand('.vim/Plugins/dein/'))
+    Plug 'luochen1990/rainbow',
 
-"Required:
-if dein#load_state('/home/docscratch/.vim/bundles/.')
-	  call dein#begin('/home/docscratch/.vim/bundles/.')
+    " Linters
+    "Plug 'scrooloose/syntastic',
+    Plug 'w0rp/ale',
 
-	" Let dein manage dein
-	" Required:
-	call dein#add('/home/docscratch/.vim/bundles/./repos/github.com/Shougo/dein.vim')
+    Plug 'mhinz/vim-startify',
+    Plug 'ntpeters/vim-better-whitespace',
+    Plug 'tpope/vim-surround',
 
-	" Add or remove your plugins here:
-	"call dein#add('valloric/youcompleteme')
-    call dein#add('metakirby5/codi.vim')
-    call dein#add('junegunn/vim-peekaboo')
-    call dein#add('vimwiki/vimwiki')
-    call dein#add('ervandew/supertab')
-	call dein#add('ludovicchabant/vim-gutentags')
-    call dein#add('xolox/vim-misc')
-    call dein#add('xolox/vim-easytags')
-	call dein#add('tpope/vim-unimpaired')
-    "call dein#add('christoomey/vim-tmux-navigator')
-    call dein#add('jreybert/vimagit')
-    call dein#add('junegunn/goyo.vim')
-    call dein#add('junegunn/gv.vim')
-    call dein#add('mhinz/vim-startify')
-    call dein#add('ntpeters/vim-better-whitespace')
-    call dein#add('yuttie/comfortable-motion.vim')
-	call dein#add('bling/vim-bufferline')
-	call dein#add('sjl/gundo.vim')
-	call dein#add('mbbill/undotree')
-	call dein#add('vim-airline/vim-airline')
-	call dein#add('vim-airline/vim-airline-themes')
-	call dein#add('Shougo/neosnippet.vim')
-	call dein#add('Shougo/neosnippet-snippets')
-	"call dein#add('Shougo/deoplete.nvim')
-	call dein#add('Shougo/neocomplete.vim')
-	call dein#add('tpope/vim-fugitive')
-    call dein#add('junegunn/gv.vim')
-    call dein#add('gregsexton/gitv')
-    call dein#add('godlygeek/tabular')
-	call dein#add('scrooloose/syntastic')
-	call dein#add('tpope/vim-surround')
-	call dein#add('scrooloose/nerdcommenter')
-	call dein#add('scrooloose/nerdtree')
-	call dein#add('Xuyuanp/nerdtree-git-plugin')
-    call dein#add('airblade/vim-gitgutter')
-	call dein#add('majutsushi/tagbar')
-	call dein#add('easymotion/vim-easymotion')
-	call dein#add('tpope/vim-repeat')
-	call dein#add('nathanaelkane/vim-indent-guides')
-	call dein#add('jiangmiao/auto-pairs')
-	call dein#add('terryma/vim-multiple-cursors')
-	call dein#add('haya14busa/incsearch.vim')
-	call dein#add('haya14busa/incsearch-easymotion.vim')
-	call dein#add('shougo/unite.vim')
+    " auto close pairs (brackets, parens, etc.)
+    Plug 'raimondi/delimitmate',
+    "Plug 'jiangmiao/auto-pairs',
+    Plug 'tpope/vim-fugitive',
+    Plug 'airblade/vim-gitgutter',
+    "Plug 'kien/ctrlp.vim',
+    "Plug 'junegunn/fzf.vim',
+    Plug 'scrooloose/nerdcommenter',
+    Plug 'bling/vim-airline',
+    Plug 'vim-airline/vim-airline-themes',
+    "Plug 'godlygeek/tabular',
+    Plug 'tpope/vim-repeat',
+    Plug 'easymotion/vim-easymotion',
+    Plug 'flazz/vim-colorschemes',
+    Plug 'shougo/unite.vim',
+    Plug 'metakirby5/codi.vim',
+    Plug 'yuttie/comfortable-motion.vim',
+    Plug 'bling/vim-bufferline',
+    "Plug 'sjl/gundo.vim',
+    Plug 'simnalamburt/vim-mundo',
+    Plug 'terryma/vim-multiple-cursors',
 
-	" You can specify revision/branch/tag.
-	" call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+    Plug 'vim-scripts/a.vim',
 
-	" Required:
-	call dein#end()
-	call dein#save_state()
-endif
+    Plug 'kana/vim-operator-user',
+    Plug 'haya14busa/vim-operator-flashy'
+call plug#end()
 
-" Required:
-filetype plugin indent on
+colorscheme Tomorrow-Night
 
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
+let g:rainbow_active = 0
 
-"End dein Scripts-------------------------
+" Flashy yank
+map y <Plug>(operator-flashy)
+nmap Y <Plug>(operator-flashy)$
 
-nmap <F5> :NERDTreeToggle<CR>
-nmap <F8> :TagbarToggle<CR>
-nmap <F6> :UndotreeToggle<CR>
-"nnoremap <F7> :GundoToggle<CR>
+" Enable persistent undo so that undo history persists across vim sessions
+set undofile
+set undodir=~/.vim/undo
 
-map <Leader> <Plug>(easymotion-prefix)
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-map z/ <Plug>(incsearch-easymotion-/)
-map z? <Plug>(incsearch-easymotion-?)
-map zg/ <Plug>(incsearch-easymotion-stay)
-nnoremap <Leader>u :Unite -silent -start-insert buffer file file_rec<CR>
+" Mundo preferences
+let g:mundo_right = 1
+let g:mundo_width = 50
 
-autocmd VimEnter * nested :call tagbar#autoopen(1)
+" Toggles
+nnoremap <F5> :MundoToggle<CR>
+map <C-o> :NERDTreeToggle<CR>
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:airline_theme='deus'
+let g:airline_theme='dracula'
 let g:airline_powerline_fonts = 1
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
 
 syntax on
 set relativenumber
@@ -146,10 +108,10 @@ set lazyredraw              " stop all the redrawin
 nmap <silent> ; :nohl<CR>
 
 " No more 'this isn't a command' bullshit anymore
-:command WQ wq
-:command Wq wq
-:command W w
-:command Q q
+":command WQ wq
+":command Wq wq
+":command W w
+":command Q q
 
 " Easier split pane navigation
 nnoremap <C-J> <C-W><C-J>
@@ -159,54 +121,5 @@ nnoremap <C-H> <C-W><C-H>
 
 nnoremap <Space> @q
 
-
-" Inter-buffer copy and paste with ','
-vmap <silent> ,y y:new<CR>:call setline(1,getregtype())<CR>o<Esc>P:wq! ~/reg.txt<CR>
-nmap <silent> ,y :new<CR>:call setline(1,getregtype())<CR>o<Esc>P:wq! ~/reg.txt<CR>
-map <silent> ,p :sview ~/reg.txt<CR>"zdddG:q!<CR>:call setreg('"', @", @z)<CR>p
-map <silent> ,P :sview ~/reg.txt<CR>"zdddG:q!<CR>:call setreg('"', @", @z)<CR>P
-
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
-
-function! AddSubtract(char, back)
-  let pattern = &nrformats =~ 'alpha' ? '[[:alpha:][:digit:]]' : '[[:digit:]]'
-  call search(pattern, 'cw' . a:back)
-  execute 'normal! ' . v:count1 . a:char
-  silent! call repeat#set(":\<C-u>call AddSubtract('" .a:char. "', '" .a:back. "')\<CR>")
-endfunction
-nnoremap <silent>         <C-a> :<C-u>call AddSubtract("\<C-a>", '')<CR>
-nnoremap <silent> <Leader><C-a> :<C-u>call AddSubtract("\<C-a>", 'b')<CR>
-nnoremap <silent>         <C-x> :<C-u>call AddSubtract("\<C-x>", '')<CR>
-nnoremap <silent> <Leader><C-x> :<C-u>call AddSubtract("\<C-x>", 'b')<CR>
-
-
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
-
-function! s:align()
-  let p = '^\s*|\s.*\s|\s*$'
-  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-    Tabularize/|/l1
-    normal! 0
-    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-  endif
-endfunction
-
-function RangerExplorer()
-    exec "silent !ranger --choosefile=/tmp/vim_ranger_current_file " . expand("%:p:h")
-    if filereadable('/tmp/vim_ranger_current_file')
-        exec 'edit ' . system('cat /tmp/vim_ranger_current_file')
-        call system('rm /tmp/vim_ranger_current_file')
-    endif
-    redraw!
-endfun
-map <Leader>x :call RangerExplorer()<CR>
-
-xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
-
-function! ExecuteMacroOverVisualRange()
-  echo "@".getcmdline()
-  execute ":'<,'>normal @".nr2char(getchar())
-endfunction
